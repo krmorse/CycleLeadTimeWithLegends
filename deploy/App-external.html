@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CycleLeadTimeWithLegends</title>
+
+    <script type="text/javascript" src="https://rally1.rallydev.com/apps/2.1/sdk.js"></script>
+
+    <script type="text/javascript">
+        Rally.onReady(function () {
+                Ext.define("CustomApp",{extend:"Rally.app.App",componentCls:"app",layout:"fit",getSettingsFields:function(){return[{xtype:"rallytimeframe",name:"INTERVAL",fieldLabel:"DateRange",timeFrameHideLabel:!0,timeFrameQuantityWidth:50,minValue:1,maxValue:180,storeConfig:["Weeks","Months","Quarters"],initialValue:"12,Months",getValue:function(){return`${this.quantityComponent.getValue()},${this.unitsComponent.getValue()}`},setValue:function(value){const{setValue}=this.self.prototype,[timeFrameQuantity,timeFrameUnit]=value.split(",");return setValue.call(this,{timeFrameQuantity:+timeFrameQuantity,timeFrameUnit:timeFrameUnit})}}]},afterRender:function(){this.callParent(arguments),this.add({xtype:"rallystandardreport",project:Rally.util.Ref.getRelativeUri(this.getContext().getProject()),projectScopeUp:this.getContext().getProjectScopeUp(),projectScopeDown:this.getContext().getProjectScopeDown(),height:this.getHeight(),width:this.getWidth(),reportConfig:{report:Rally.ui.report.StandardReport.Reports.CycleLeadTime,work_items:"Stories,Defects,Combined",from_state:"In-Progress",to_state:"Accepted",tags:[],interval:"Months",intervals_back:12,legend:"show",subchart:"show",x_axis_label:"show",y_axis_label:"show"}})}});
+
+            Rally.launchApp('CustomApp', {
+                name:"CycleLeadTimeWithLegends",
+	            parentRepos:""
+            });
+
+        });
+    </script>
+
+
+    <style type="text/css">
+        
+    </style>
+</head>
+<body>
+</body>
+</html>
